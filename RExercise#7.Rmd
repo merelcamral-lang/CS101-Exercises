@@ -1,0 +1,142 @@
+---
+title: "RExercise#7"
+author: "Merel Camral"
+date: "2026-11-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Part A — Creating Data Frames
+```{r}
+# Vector definitions for the 20 respondents
+Respondent <- 1:20
+Sex <- c(1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 2)
+FathersOccupation <- c(1, 2, 3, 1, 1, 2, 3, 1, 2, 3, 1, 2, 1, 3, 2, 1, 3, 2, 1, 3)
+PersonsAtHome <- c(5, 6, 4, 7, 5, 8, 4, 6, 5, 7, 6, 5, 4, 9, 6, 5, 7, 4, 6, 5)
+SiblingsAtSchool <- c(2, 3, 1, 4, 2, 5, 1, 3, 2, 4, 3, 2, 1, 6, 3, 2, 4, 1, 3, 2)
+TypesOfHouses <- c(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2)
+
+# Check lengths of all six vectors
+length(Respondent)
+length(Sex)
+length(FathersOccupation)
+length(PersonsAtHome)
+length(SiblingsAtSchool)
+length(TypesOfHouses)
+```
+
+```{r}
+# Combine vectors into data frame
+survey <- data.frame(
+  Respondent = Respondent,
+  Sex = Sex,
+  FathersOccupation = FathersOccupation,
+  PersonsAtHome = PersonsAtHome,
+  SiblingsAtSchool = SiblingsAtSchool,
+  TypesOfHouses = TypesOfHouses
+)
+
+# Print the resulting data frame
+print(survey)
+```
+
+```{r}
+# Inspect structure and summary
+str(survey)
+summary(survey)
+```
+
+```{r}
+# Check dimensions
+dim(survey)
+```
+
+```{r}
+# Convert numeric codes into labeled factors
+survey$Sex <- factor(survey$Sex, 
+                     levels = c(1, 2), 
+                     labels = c("Male", "Female"))
+
+survey$FathersOccupation <- factor(survey$FathersOccupation, 
+                                   levels = c(1, 2, 3), 
+                                   labels = c("Farmer", "Driver", "Others"))
+
+survey$TypesOfHouses <- factor(survey$TypesOfHouses, 
+                               levels = c(1, 2, 3), 
+                               labels = c("Wood", "Semi-Concrete", "Concrete"))
+
+# Check structure to confirm factor conversion
+str(survey)
+```
+
+```{r}
+# Compute mean for numeric columns (excluding Respondent ID)
+colMeans(survey[, c("PersonsAtHome", "SiblingsAtSchool")])
+
+# Or using sapply across all columns (factors will return NA)
+sapply(survey, function(x) if(is.numeric(x)) mean(x) else NA)
+```
+
+```{r}
+# Extract first five rows
+head(survey, n = 5)
+# Alternatively: survey[1:5, ]
+```
+
+```{r}
+# Extract vector
+types_houses <- survey$TypesOfHouses
+print(types_houses)
+```
+
+```{r}
+# Subsetting males with farmer fathers
+males_farmers <- subset(survey, Sex == "Male" & FathersOccupation == "Farmer")
+# If using raw numeric codes: subset(survey, Sex == 1 & FathersOccupation == 1)
+print(males_farmers)
+```
+
+```{r}
+# Subsetting females with 5 or more siblings at school
+females_5siblings <- subset(survey, Sex == "Female" & SiblingsAtSchool >= 5)
+# If using raw numeric codes: subset(survey, Sex == 2 & SiblingsAtSchool >= 5)
+print(females_5siblings)
+```
+
+```{r}
+#Question #2
+#Answer:Checking that all vectors have equal lengths before calling data.frame() is necessary because data frames require rectangular structure where every row represents one unique observation across all attributes. In a survey context, mismatched vector lengths mean some respondents would have missing or misaligned data across questions, breaking row-wise integrity and causing R to throw an error or improperly recycle values.
+
+#Question #3
+#Answer:The columns Sex, FathersOccupation, and TypesOfHouses represent nominal categorical data, whereas PersonsAtHome and SiblingsAtSchool represent actual numerical counts. Treating a categorical variable like Sex as a quantity to average is misleading because numeric codes like 1 and 2 are arbitrary identifiers without numerical magnitude or ordering; calculating an average like 1.5 does not describe a real physical quantity or meaningful center.
+
+#Question #4
+#Answer:Filtering using raw numeric codes like Sex == 1 produces output where columns display plain numbers, which someone unfamiliar with the legend might misinterpret as an actual count or ranking (e.g., assuming "1" means rank 1 or a single person). This illustrates that working with unlabelled coded data increases ambiguity and risks misinterpretation when sharing or analyzing results.
+```
+# Calculation code
+Question#5
+```{r}
+sum(survey$Sex == "Male") # or sum(survey$Sex == 1)
+
+#There are 10 Male respondents out of the total 20 respondents. This small sample size significantly reduces confidence when generalizing patterns to a larger population because small samples have high sampling variability and may not accurately reflect demographic distributions or broader societal trends.
+
+#Question #6
+#Answer:R does not automatically recognize numeric columns as categorical because it processes data based on its underlying storage data type (integers/doubles) rather than its contextual semantic meaning. This highlights the key distinction between data storage (how numbers are stored in memory) and data semantics (what those numbers represent in the real world), requiring explicit factor conversion to inform R of categorical data structures.
+
+#Question #7
+#Answer:The mean of PersonsAtHome is meaningful to report because it represents a quantitative count of people, yielding a true arithmetic measure of central tendency (e.g., average household size). Conversely, the mean of Sex is not meaningful because sex is a nominal categorical variable where numeric values serve merely as arbitrary labels rather than measurable amounts.
+```
+
+
+
+
+
+
+
+
+
+
+
