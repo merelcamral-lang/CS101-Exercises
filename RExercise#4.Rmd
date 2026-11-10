@@ -1,0 +1,111 @@
+---
+title: "RExercise#4"
+author: "Merel Camral"
+date: "2026-10-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Part A — Creating Vectors and List:
+Question #1:
+```{r}
+# 1. Create a vector for the worker's age
+ages <- c(34, 28, 22, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 
+          50, 37, 46, 25, 17, 37, 43, 53, 41, 51, 35, 24, 33, 41, 53, 40, 18, 44, 38, 41, 
+          48, 27, 39, 19, 30, 61, 54, 58, 26, 18)
+ages
+
+# 2. How many data points?
+length(ages)
+
+# c. Find the minimum and the maximum value of worker's age
+min(ages)
+max(ages)
+# Alternatively, to get both at once:
+range(ages)
+
+# d. Access the 13th to 18th elements and 33rd to 35th elements of worker's Age
+ages[c(13:18, 33:35)]
+
+# e. Access all elements except the 10th, 20th, 30th, and 40th
+ages[-c(10, 20, 30, 40)]
+
+# f. Modify the 4th, 14th, 24th, and 44th elements with value = 0
+ages[c(4, 14, 24, 44)] <- 0
+ages
+```
+
+Question #2
+```{r}
+# Load the dataset
+data(rivers)
+
+# a. Get the length, sum, mean, median, variance, standard deviation, min, and max
+# b. Store all calculated statistics in just one (1) vector name
+rivers_stats <- c(
+  Length = length(rivers),
+  Sum = sum(rivers),
+  Mean = mean(rivers),
+  Median = median(rivers),
+  Variance = var(rivers),
+  StdDev = sd(rivers),
+  Min = min(rivers),
+  Max = max(rivers)
+)
+
+# Display the resulting vector
+rivers_stats
+```
+
+Question #3
+```{r}
+# a. Create vectors according to the Forbes table
+celebrity_name <- c("Oprah Winfrey", "Tiger Woods", "Madonna", "J.K. Rowling", "Tom Cruise") # Add all 25 names
+power_ranking <- c(1, 2, 3, 9, 10) # Add all 25 power rankings
+annual_pay <- c(275, 115, 110, 300, 45) # Add all 25 pay values
+
+# b. Modify the power ranking and pay of J.K. Rowling (Change power ranking to 15 and pay to 90)
+# Find the index for J.K. Rowling dynamically:
+jk_index <- which(celebrity_name == "J.K. Rowling")
+
+power_ranking[jk_index] <- 15
+annual_pay[jk_index] <- 90
+
+# Print updated vectors
+power_ranking
+annual_pay
+```
+
+Question #4
+```{r}
+# Create a list of ten (10) vegetables
+veggies <- list("Carrot", "Broccoli", "Spinach", "Potato", "Tomato", 
+                "Cabbage", "Onion", "Garlic", "Cucumber", "Eggplant")
+veggies
+
+# a. Add 2 additional vegetables after the last vegetable in the list
+veggies <- append(veggies, list("Bell Pepper", "Zucchini"))
+veggies
+
+# b. How many datapoints do you have?
+length(veggies)
+# Result: 12
+
+# c. Add 4 additional vegetables after index 5
+veggies <- append(veggies, list("Lettuce", "Radish", "Cauliflower", "Peas"), after = 5)
+veggies
+
+# d. How many datapoints does your vegetable list have?
+length(veggies)
+# Result: 16
+```
+
+
+
+
+
+
